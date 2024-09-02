@@ -18,4 +18,4 @@ This chatbot can be applied in various scenarios, such as customer service, virt
 - For projects requiring user management, I've included an optional feature to implement JWT (JSON Web Token) authentication. This ensures that only authenticated users can access certain functionalities, adding an extra layer of security to the application.
 
 ### Persistent Chat History
-- I configured the application to store chat history in a Heroku PostgreSQL database. This feature is particularly useful for scenarios where maintaining a record of conversations is important, such as customer support or user behavior analysis.
+- I configured the application to store chat history in a Heroku PostgreSQL database. This feature is particularly useful for scenarios where maintaining a record of conversations is important, such as customer support or user behavior analysis. SM
