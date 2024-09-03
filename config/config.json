@@ -1,0 +1,32 @@
+{
+  "development": {
+    "url": "postgres://u4brncdu914gni:p046e8692fbde21e32d1eeacfee5a1a20487ebc7a203f71fb7c8fb4e689888686@ccpa7stkruda3o.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/dcr680fop7hgik",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  },
+  "test": {
+    "url": "postgres://u4brncdu914gni:p046e8692fbde21e32d1eeacfee5a1a20487ebc7a203f71fb7c8fb4e689888686@ccpa7stkruda3o.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/dcr680fop7hgik",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  },
+  "production": {
+    "url": "postgres://u4brncdu914gni:p046e8692fbde21e32d1eeacfee5a1a20487ebc7a203f71fb7c8fb4e689888686@ccpa7stkruda3o.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/dcr680fop7hgik",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  }
+}

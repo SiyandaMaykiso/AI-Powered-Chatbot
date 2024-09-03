@@ -1,7 +1,7 @@
 // models/ChatLog.js
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config');
+const sequelize = require('../config/db');
 
 const ChatLog = sequelize.define('ChatLog', {
   userId: {

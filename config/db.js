@@ -1,4 +1,4 @@
-//config.js
+//db.js
 
 const { Sequelize } = require('sequelize');
 
