@@ -15,6 +15,12 @@ const app = express();
 app.use(cors()); // Enable CORS for all requests
 app.use(bodyParser.json()); // Parse incoming JSON requests
 
+// Import routes
+const authRoutes = require('./routes/authRoutes');
+
+// Use routes
+app.use('/', authRoutes);  // This will handle /register and /login
+
 // Root endpoint for testing the API
 app.get('/', (req, res) => {
     res.send('Welcome to the AI-Powered Chatbot API!');
