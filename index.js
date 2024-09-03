@@ -17,9 +17,11 @@ app.use(bodyParser.json()); // Parse incoming JSON requests
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
+const chatRoutes = require('./routes/chatRoutes');  // Import the chat routes
 
 // Use routes
 app.use('/', authRoutes);  // This will handle /register and /login
+app.use('/', chatRoutes);  // This will handle /chat
 
 // Root endpoint for testing the API
 app.get('/', (req, res) => {
@@ -38,10 +40,10 @@ app.post('/api/query', async (req, res) => {
 
         // Make a direct API call to OpenAI using Axios
         const response = await axios.post(
-            'https://api.openai.com/v1/completions',
+            'https://api.openai.com/v1/chat/completions',
             {
-                model: 'text-davinci-003',
-                prompt: userQuery,
+                model: 'gpt-3.5-turbo',
+                messages: [{ role: 'user', content: userQuery }],
                 max_tokens: 150,
                 temperature: 0.7,
             },
@@ -54,7 +56,7 @@ app.post('/api/query', async (req, res) => {
         );
 
         // Send the response back to the client
-        res.json({ response: response.data.choices[0].text.trim() });
+        res.json({ response: response.data.choices[0].message.content.trim() });
     } catch (error) {
         console.error('Error handling query:', error.message);
         res.status(500).json({ error: 'An error occurred while processing your query' });

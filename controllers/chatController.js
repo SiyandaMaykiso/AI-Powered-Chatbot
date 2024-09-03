@@ -1,34 +1,47 @@
 // controllers/chatController.js
 
-const { Configuration, OpenAIApi } = require('openai');
+const axios = require('axios');
 const ChatLog = require('../models/ChatLog');
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-const openai = new OpenAIApi(configuration);
-
 exports.chat = async (req, res) => {
-  const { message } = req.body;
+    const { message } = req.body;
 
-  try {
-    const response = await openai.createCompletion({
-      model: 'text-davinci-003',
-      prompt: message,
-      max_tokens: 150,
-    });
+    try {
+        // Validate the incoming request
+        if (!message) {
+            return res.status(400).json({ error: 'Message is required' });
+        }
 
-    const chatResponse = response.data.choices[0].text.trim();
+        // Make a direct API call to OpenAI using Axios with the new model
+        const response = await axios.post(
+            'https://api.openai.com/v1/chat/completions',
+            {
+                model: 'gpt-3.5-turbo',
+                messages: [{ role: 'user', content: message }],
+                max_tokens: 150,
+                temperature: 0.7,
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+                },
+            }
+        );
 
-    await ChatLog.create({
-      userId: req.user.id,
-      message,
-      response: chatResponse,
-    });
+        const chatResponse = response.data.choices[0].message.content.trim();
 
-    res.status(200).json({ message: chatResponse });
-  } catch (error) {
-    res.status(500).json({ error: 'Error processing message' });
-  }
+        // Save the chat log in the database
+        await ChatLog.create({
+            userId: req.user.id,
+            message,
+            response: chatResponse,
+        });
+
+        // Send the response back to the client
+        res.status(200).json({ message: chatResponse });
+    } catch (error) {
+        console.error('Error processing message:', error.message);
+        res.status(500).json({ error: 'Error processing message' });
+    }
 };
