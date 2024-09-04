@@ -1,11 +1,9 @@
-// controllers/chatController.js
-
 const axios = require('axios');
 const ChatLog = require('../models/ChatLog');
 
 // Method to handle user chat requests
 exports.chat = async (req, res) => {
-    const { message } = req.body;
+    const { message, previousMessageId } = req.body; // Allow previousMessageId in the request
 
     try {
         // Validate the incoming request
@@ -32,15 +30,16 @@ exports.chat = async (req, res) => {
 
         const chatResponse = response.data.choices[0].message.content.trim();
 
-        // Save the chat log in the database
-        await ChatLog.create({
+        // Save the chat log in the database with the previousMessageId
+        const newChatLog = await ChatLog.create({
             userId: req.user.id,
             message,
             response: chatResponse,
+            previousMessageId: previousMessageId || null // Include the previousMessageId if provided
         });
 
-        // Send the response back to the client
-        res.status(200).json({ message: chatResponse });
+        // Return the saved chat log including the ID
+        res.status(200).json(newChatLog);
     } catch (error) {
         console.error('Error processing message:', error.message);
         res.status(500).json({ error: 'Error processing message' });
@@ -62,4 +61,53 @@ exports.getChatHistory = async (req, res) => {
         console.error('Error retrieving chat history:', error.message);
         res.status(500).json({ error: 'Error retrieving chat history' });
     }
+};
+
+// Method to update a chat log
+exports.updateChatLog = async (req, res) => {
+  const { id } = req.params;
+  const { message, response } = req.body;
+
+  try {
+      // Find the chat log by its ID
+      const chatLog = await ChatLog.findOne({ where: { id, userId: req.user.id } });
+
+      if (!chatLog) {
+          return res.status(404).json({ error: 'Chat log not found' });
+      }
+
+      // Update the message and/or response
+      chatLog.message = message || chatLog.message;
+      chatLog.response = response || chatLog.response;
+
+      // Save the updated chat log
+      await chatLog.save();
+
+      res.status(200).json({ message: 'Chat log updated successfully', chatLog });
+  } catch (error) {
+      console.error('Error updating chat log:', error.message);
+      res.status(500).json({ error: 'Error updating chat log' });
+  }
+};
+
+// Method to delete a chat log
+exports.deleteChatLog = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+      // Find the chat log by its ID and ensure it belongs to the authenticated user
+      const chatLog = await ChatLog.findOne({ where: { id, userId: req.user.id } });
+
+      if (!chatLog) {
+          return res.status(404).json({ error: 'Chat log not found' });
+      }
+
+      // Delete the chat log
+      await chatLog.destroy();
+
+      res.status(200).json({ message: 'Chat log deleted successfully' });
+  } catch (error) {
+      console.error('Error deleting chat log:', error.message);
+      res.status(500).json({ error: 'Error deleting chat log' });
+  }
 };
