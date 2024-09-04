@@ -27,12 +27,10 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
-    // Add this to log the JWT secret
+    // Log the JWT secret to ensure it's being used correctly
     console.log("JWT_SECRET used for signing:", process.env.JWT_SECRET);
-    
-
 
     res.status(200).json({ message: 'Login successful', token });
   } catch (error) {
