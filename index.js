@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const axios = require('axios');
+const authMiddleware = require('./middlewares/authMiddleware');  // Import the authMiddleware
+const ChatLog = require('./models/ChatLog');  // Import the ChatLog model
 
 // Load environment variables from .env file
 dotenv.config();
@@ -29,8 +31,10 @@ app.get('/', (req, res) => {
 });
 
 // Endpoint to handle user queries
-app.post('/api/query', async (req, res) => {
+app.post('/api/query', authMiddleware, async (req, res) => {
     try {
+        console.log("req.user in /api/query:", req.user);  // Debug to check if req.user is set
+
         const { userQuery } = req.body;
 
         // Validate the incoming request
@@ -55,8 +59,17 @@ app.post('/api/query', async (req, res) => {
             }
         );
 
+        const apiResponse = response.data.choices[0].message.content.trim();
+
+        // Save the query log in the ChatLog database
+        await ChatLog.create({
+            userId: req.user.id,  // Ensure the user is authenticated
+            message: userQuery,
+            response: apiResponse,
+        });
+
         // Send the response back to the client
-        res.json({ response: response.data.choices[0].message.content.trim() });
+        res.json({ response: apiResponse });
     } catch (error) {
         console.error('Error handling query:', error.message);
         res.status(500).json({ error: 'An error occurred while processing your query' });
