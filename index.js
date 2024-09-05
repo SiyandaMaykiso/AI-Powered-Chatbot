@@ -14,7 +14,9 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors()); // Enable CORS for all requests
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow requests from the frontend running on localhost:3000
+})); // Enable CORS for all requests
 app.use(bodyParser.json()); // Parse incoming JSON requests
 
 // Import routes

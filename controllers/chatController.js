@@ -3,7 +3,7 @@ const ChatLog = require('../models/ChatLog');
 
 // Method to handle user chat requests
 exports.chat = async (req, res) => {
-    const { message, previousMessageId } = req.body; // Allow previousMessageId in the request
+    const { message, previousMessageId } = req.body;
 
     try {
         // Validate the incoming request
@@ -11,14 +11,38 @@ exports.chat = async (req, res) => {
             return res.status(400).json({ error: 'Message is required' });
         }
 
-        // Make a direct API call to OpenAI using Axios with the new model
+        // Fetch the previous message context if previousMessageId is provided
+        let previousMessages = [];
+        if (previousMessageId) {
+            const previousMessagesData = await ChatLog.findAll({
+                where: { userId: req.user.id },
+                order: [['createdAt', 'ASC']],
+                limit: 5 // Fetch the last 5 messages for context
+            });
+            
+            previousMessagesData.forEach(log => {
+                previousMessages.push({ role: 'user', content: log.message });
+                previousMessages.push({ role: 'assistant', content: log.response });
+            });
+        }
+
+        // Include the new message in the conversation
+        previousMessages.push({ role: 'user', content: message });
+
+        // Add system instruction to focus on concise and complete responses
+        previousMessages.push({
+            role: 'system',
+            content: 'Provide a response that fits within 150 tokens and ends with a complete thought.'
+        });
+
+        // Make a direct API call to OpenAI using Axios with the conversation history
         const response = await axios.post(
             'https://api.openai.com/v1/chat/completions',
             {
                 model: 'gpt-3.5-turbo',
-                messages: [{ role: 'user', content: message }],
-                max_tokens: 150,
-                temperature: 0.7,
+                messages: previousMessages,
+                max_tokens: 165,
+                temperature: 0.8,
             },
             {
                 headers: {
