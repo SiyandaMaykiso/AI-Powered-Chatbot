@@ -50,8 +50,8 @@ app.post('/api/query', authMiddleware, async (req, res) => {
             {
                 model: 'gpt-3.5-turbo',
                 messages: [{ role: 'user', content: userQuery }],
-                max_tokens: 150,
-                temperature: 0.7,
+                max_tokens: 172,
+                temperature: 0.8,
             },
             {
                 headers: {
