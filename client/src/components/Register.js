@@ -16,8 +16,9 @@ const Register = ({ onRegisterSuccess }) => {
       localStorage.setItem('token', response.data.token);
       onRegisterSuccess(); // Redirect to /chat after successful registration
     } catch (err) {
-      setError('Error registering user');
-      console.error('Registration error:', err);
+        setError('User already registered');
+        console.error('Registration error:', err);
+        
     }
   };
 
