@@ -13,16 +13,9 @@ const Login = ({ onLoginSuccess }) => {
         username,
         password,
       });
-      
-      // Assuming the response contains a token
       const { token } = response.data;
-
-      // Save the token in localStorage
       localStorage.setItem('token', token);
-
-      // Notify the parent component about successful login
       onLoginSuccess();
-
     } catch (err) {
       setError('Invalid username or password');
       console.error('Login error:', err);
@@ -30,25 +23,22 @@ const Login = ({ onLoginSuccess }) => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <form onSubmit={handleLogin}>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleLogin}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button type="submit">Login</button>
+    </form>
   );
 };
 

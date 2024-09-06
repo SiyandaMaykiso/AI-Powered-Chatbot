@@ -1,5 +1,8 @@
+// /client/src/components/ChatHistory.js
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './ChatHistory.css'; // Import the CSS file
 
 const ChatHistory = () => {
   const [chatHistory, setChatHistory] = useState([]);
@@ -10,8 +13,8 @@ const ChatHistory = () => {
       try {
         const response = await axios.get('http://localhost:3001/chat-history', {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}` // Pass the JWT token for authentication
-          }
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Pass the JWT token for authentication
+          },
         });
         setChatHistory(response.data.chatHistory);
       } catch (error) {
@@ -27,7 +30,7 @@ const ChatHistory = () => {
       <h2>Your Chat History</h2>
       <ul>
         {chatHistory.map((log, index) => (
-          <li key={index}>
+          <li key={index} className="chat-result">
             <strong>You:</strong> {log.message} <br />
             <strong>Bot:</strong> {log.response}
           </li>

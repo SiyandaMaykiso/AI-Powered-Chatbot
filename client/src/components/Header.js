@@ -10,7 +10,7 @@ const Header = () => {
       <nav>
         <Link to="/" style={linkStyle}>Home</Link> {/* Home link */}
         <Link to="/chat" style={linkStyle}>Chat</Link>
-        <Link to="/chat-history" style={linkStyle}>Chat History</Link> {/* Fixed the path to /chat-history */}
+        <Link to="/chat-history" style={linkStyle}>Chat-History</Link> {/* Fixed the path to /chat-history */}
       </nav>
     </header>
   );
@@ -29,6 +29,7 @@ const linkStyle = {
   marginRight: '10px',
   color: 'white',
   textDecoration: 'none',
+  fontWeight: 'bold', // Make the links bold
 };
 
 export default Header;
