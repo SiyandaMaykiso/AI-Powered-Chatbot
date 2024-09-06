@@ -11,13 +11,14 @@ import Header from './components/Header';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true); // To prevent routing before token check is done
 
   useEffect(() => {
-    // Check if a token exists in localStorage on initial render
     const token = localStorage.getItem('token');
     if (token) {
-      setIsLoggedIn(true);
+      setIsLoggedIn(true); // Token exists, user is logged in
     }
+    setLoading(false); // Token check completed
   }, []);
 
   // Function to handle successful login
@@ -25,28 +26,30 @@ const App = () => {
     setIsLoggedIn(true);
   };
 
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading state while token is being checked
+  }
+
   return (
     <Router>
       <div className="App">
-        {/* Add the Header component */}
         <Header />
 
         <Routes>
-          {/* Default Home route */}
           <Route path="/" element={<Home onLoginSuccess={handleLoginSuccess} />} />
 
-          {/* Login and Register routes */}
+          {/* Public routes */}
           <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
           <Route path="/register" element={<Register />} />
 
-          {/* Protected ChatWindow and ChatHistory routes */}
+          {/* Protected routes */}
           {isLoggedIn ? (
             <>
               <Route path="/chat" element={<ChatWindow />} />
               <Route path="/chat-history" element={<ChatHistory />} />
             </>
           ) : (
-            // If not logged in, redirect to the login page
+            // Redirect to login if user is not authenticated
             <Route path="*" element={<Navigate to="/login" />} />
           )}
         </Routes>

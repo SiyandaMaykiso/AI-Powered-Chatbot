@@ -1,4 +1,3 @@
-// Create a Header Component
 // /client/src/components/Header.js
 
 import React from 'react';
@@ -9,10 +8,9 @@ const Header = () => {
     <header style={headerStyle}>
       <h1>AI-Powered Chatbot</h1>
       <nav>
+        <Link to="/" style={linkStyle}>Home</Link> {/* Home link */}
         <Link to="/chat" style={linkStyle}>Chat</Link>
-        <Link to="/history" style={linkStyle}>Chat History</Link>
-        <Link to="/login" style={linkStyle}>Login</Link>
-        <Link to="/register" style={linkStyle}>Register</Link>
+        <Link to="/chat-history" style={linkStyle}>Chat History</Link> {/* Fixed the path to /chat-history */}
       </nav>
     </header>
   );
