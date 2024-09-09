@@ -7,6 +7,8 @@ const axios = require('axios');
 const path = require('path');  // Import path to serve static files
 const authMiddleware = require('./middlewares/authMiddleware');  // Import the authMiddleware
 const ChatLog = require('./models/ChatLog');  // Import the ChatLog model
+const bcrypt = require('bcrypt');  // Add bcrypt for password hashing
+const User = require('./models/User');  // Assuming you have a User model for managing users
 
 // Load environment variables from .env file
 dotenv.config();
@@ -45,14 +47,47 @@ app.get('*', (req, res) => {
 app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
-        console.log('Login attempt:', { username, password });  // Log the login attempt
+        console.log('Login attempt:', { username, password });
 
-        // Add your actual login logic here (checking database, validating password, etc.)
+        // Simulate user lookup and password validation (you should use your database here)
+        const user = await User.findOne({ where: { username } });
 
-        // For now, let's simulate a successful login:
-        res.json({ token: 'dummy-token' });  // Replace this with your actual JWT token logic
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            return res.status(401).json({ error: 'Invalid username or password' });
+        }
+
+        // Simulate JWT generation
+        const token = 'dummy-token'; // Replace this with actual JWT generation logic
+        res.json({ token });
     } catch (error) {
-        console.error('Login error:', error);  // Log any errors that occur during the login process
+        console.error('Login error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Add a register route
+app.post('/register', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        console.log('Register attempt:', { username, password });
+
+        // Check if the user already exists
+        const existingUser = await User.findOne({ where: { username } });
+        if (existingUser) {
+            return res.status(409).json({ error: 'User already registered' });
+        }
+
+        // Hash the password before storing it
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Save the user in the database
+        const newUser = await User.create({ username, password: hashedPassword });
+
+        // Simulate JWT generation
+        const token = 'dummy-token'; // Replace this with actual JWT generation logic
+        res.json({ token });
+    } catch (error) {
+        console.error('Register error:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -60,7 +95,7 @@ app.post('/login', async (req, res) => {
 // Endpoint to handle user queries
 app.post('/api/query', authMiddleware, async (req, res) => {
     try {
-        console.log("req.user in /api/query:", req.user);  // Debug to check if req.user is set
+        console.log("req.user in /api/query:", req.user);
 
         const { userQuery } = req.body;
 
@@ -90,7 +125,7 @@ app.post('/api/query', authMiddleware, async (req, res) => {
 
         // Save the query log in the ChatLog database
         await ChatLog.create({
-            userId: req.user.id,  // Ensure the user is authenticated
+            userId: req.user.id,
             message: userQuery,
             response: apiResponse,
         });
