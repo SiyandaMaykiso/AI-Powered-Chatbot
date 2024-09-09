@@ -1,4 +1,5 @@
 // /client/src/components/Login.js
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress from Material-UI
@@ -21,7 +22,7 @@ const Login = ({ onLoginSuccess, onLoading }) => {
       });
       const { token } = response.data;
       localStorage.setItem('token', token);
-      onLoginSuccess();
+      onLoginSuccess(); // Call onLoginSuccess after successfully saving the token
     } catch (err) {
       setError('Invalid username or password');
       console.error('Login error:', err);

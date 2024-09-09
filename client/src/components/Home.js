@@ -1,3 +1,5 @@
+// /client/src/components/Home.js
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Login from './Login';
@@ -11,19 +13,24 @@ const Home = ({ onLoginSuccess }) => {
   const [isLoggedOut, setIsLoggedOut] = useState(false); // Track if user is logged out
   const navigate = useNavigate();
 
+  // Handle login success, navigate to /chat
   const handleLoginSuccess = () => {
-    onLoginSuccess();
-    navigate('/chat');
+    onLoginSuccess(); // Trigger the login success callback from App.js
+    navigate('/chat'); // Navigate to the chat window
   };
 
+  // Handle registration success, navigate to /chat
   const handleRegisterSuccess = () => {
-    navigate('/chat');
+    onLoginSuccess(); // This can be used to automatically log in after registration
+    navigate('/chat'); // Navigate to the chat window
   };
 
+  // Control the loading state for login/register actions
   const handleLoading = (isLoading) => {
-    setLoading(isLoading); // Control the loading state
+    setLoading(isLoading); // Show or hide loading spinner
   };
 
+  // Handle user logout
   const handleLogout = () => {
     setLoading(true); // Show loading spinner
     setTimeout(() => {
