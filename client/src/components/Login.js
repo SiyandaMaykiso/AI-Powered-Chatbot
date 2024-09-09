@@ -15,7 +15,7 @@ const Login = ({ onLoginSuccess, onLoading }) => {
     onLoading(true);  // Optionally call onLoading to handle globally
     setError('');
     try {
-      const response = await axios.post('http://localhost:3001/login', {
+      const response = await axios.post('/login', {  // Use relative URL
         username,
         password,
       });

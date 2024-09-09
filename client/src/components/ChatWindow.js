@@ -14,7 +14,7 @@ const ChatWindow = () => {
     if (userQuery.trim()) {
       setLoading(true); // Set loading to true when sending the message
       try {
-        const response = await axios.post('http://localhost:3001/chat', {
+        const response = await axios.post('/chat', {  // Use relative URL
           message: userQuery,
         }, {
           headers: {

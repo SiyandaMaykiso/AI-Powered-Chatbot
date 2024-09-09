@@ -15,7 +15,7 @@ const Register = ({ onRegisterSuccess, onLoading }) => {
     onLoading(true);  // Optionally call onLoading to handle globally
     setError('');
     try {
-      const response = await axios.post('http://localhost:3001/register', {
+      const response = await axios.post('/register', {  // Use relative URL
         username,
         password,
       });

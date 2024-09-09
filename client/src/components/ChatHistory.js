@@ -13,7 +13,7 @@ const ChatHistory = () => {
     // Fetch chat history when the component mounts
     const fetchChatHistory = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/chat-history', {
+        const response = await axios.get('/chat-history', {  // Use relative URL
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`, // Pass the JWT token for authentication
           },
