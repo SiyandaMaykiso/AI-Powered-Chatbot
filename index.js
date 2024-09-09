@@ -41,6 +41,22 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
+// Add logging to the /login route for troubleshooting
+app.post('/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        console.log('Login attempt:', { username, password });  // Log the login attempt
+
+        // Add your actual login logic here (checking database, validating password, etc.)
+
+        // For now, let's simulate a successful login:
+        res.json({ token: 'dummy-token' });  // Replace this with your actual JWT token logic
+    } catch (error) {
+        console.error('Login error:', error);  // Log any errors that occur during the login process
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 // Endpoint to handle user queries
 app.post('/api/query', authMiddleware, async (req, res) => {
     try {
