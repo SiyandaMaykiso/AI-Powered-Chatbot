@@ -41,6 +41,7 @@ const App = () => {
 
           {/* Public routes */}
           <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+          
           {/* Pass onLoginSuccess to Register component */}
           <Route path="/register" element={<Register onLoginSuccess={handleLoginSuccess} />} />
 
