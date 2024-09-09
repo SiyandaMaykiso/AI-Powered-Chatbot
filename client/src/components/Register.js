@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress from Material-UI
 
-const Register = ({ onRegisterSuccess, onLoading }) => {
+const Register = ({ onLoginSuccess, onLoading }) => {  // Use onLoginSuccess to maintain login state
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -12,21 +12,27 @@ const Register = ({ onRegisterSuccess, onLoading }) => {
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true); // Show loading spinner
-    onLoading(true);  // Optionally call onLoading to handle globally
+    if (onLoading) onLoading(true);  // Optionally call onLoading to handle globally
     setError('');
+
     try {
       const response = await axios.post('/register', {  // Use relative URL
         username,
         password,
       });
+
+      // Save token in localStorage after successful registration
       localStorage.setItem('token', response.data.token);
-      onRegisterSuccess(); // Redirect to /chat after successful registration
+
+      // Call onLoginSuccess to update the login state and redirect to /chat
+      onLoginSuccess(); 
+      
     } catch (err) {
       setError('User already registered');
       console.error('Registration error:', err);
     } finally {
       setLoading(false); // Hide loading spinner
-      onLoading(false);  // Optionally call onLoading to stop globally
+      if (onLoading) onLoading(false);  // Optionally call onLoading to stop globally
     }
   };
 

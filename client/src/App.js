@@ -1,5 +1,4 @@
 // /client/src/App.js
-
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import ChatWindow from './components/ChatWindow';
@@ -36,11 +35,11 @@ const App = () => {
         <Header />
 
         <Routes>
-          <Route path="/" element={<Home onLoginSuccess={handleLoginSuccess} />} />
+          <Route path="/" element={<Home />} />
 
           {/* Public routes */}
           <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Register onLoginSuccess={handleLoginSuccess} />} /> {/* Pass onLoginSuccess to Register */}
 
           {/* Protected routes */}
           {isLoggedIn ? (
