@@ -17,7 +17,14 @@
 │       ├── App.js
 │       ├── App.test.js
 │       ├── components
-│       │   └── ChatWindow.js
+│       │   ├── ChatHistory.css
+│       │   ├── ChatHistory.js
+│       │   ├── ChatWindow.js
+│       │   ├── Header.js
+│       │   ├── Home.css
+│       │   ├── Home.js
+│       │   ├── Login.js
+│       │   └── Register.js
 │       ├── index.css
 │       ├── index.js
 │       ├── logo.svg
@@ -34,7 +41,8 @@
 │   └── authMiddleware.js
 ├── migrations
 │   ├── 20240902200558-create-chatlogs-table.js
-│   └── 20240902200558-create-users-table.js
+│   ├── 20240902200558-create-users-table.js
+│   └── 20240905170154-add-previous-message-id-to-chatlogs.js
 ├── models
 │   ├── ChatLog.js
 │   └── User.js
@@ -46,4 +54,4 @@
 │   └── chatRoutes.js
 └── seeders
 
-12 directories, 35 files
+12 directories, 43 files
