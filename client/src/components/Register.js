@@ -30,6 +30,13 @@ const Register = ({ onRegisterSuccess, onLoading }) => {
     }
   };
 
+  // Function to handle Enter key press
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleRegister(e);
+    }
+  };
+
   return (
     <form onSubmit={handleRegister}>
       {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -38,6 +45,7 @@ const Register = ({ onRegisterSuccess, onLoading }) => {
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        onKeyPress={handleKeyPress} // Handle Enter key
         required
       />
       <input
@@ -45,6 +53,7 @@ const Register = ({ onRegisterSuccess, onLoading }) => {
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        onKeyPress={handleKeyPress} // Handle Enter key
         required
       />
       <button type="submit" disabled={loading}>

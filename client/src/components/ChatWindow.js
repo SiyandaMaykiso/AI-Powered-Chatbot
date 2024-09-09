@@ -30,6 +30,13 @@ const ChatWindow = () => {
     }
   };
 
+  // Function to handle Enter key press
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  };
+
   return (
     <div style={chatContainerStyle}>
       <h2 style={headerStyle}>AI Chat</h2>
@@ -46,6 +53,7 @@ const ChatWindow = () => {
           value={userQuery}
           onChange={(e) => setUserQuery(e.target.value)}
           placeholder="Ask the chatbot..."
+          onKeyPress={handleKeyPress} // Add keypress handler for Enter key
           style={inputStyle}
         />
         <button onClick={sendMessage} style={sendButtonStyle} disabled={loading}>

@@ -31,6 +31,13 @@ const Login = ({ onLoginSuccess, onLoading }) => {
     }
   };
 
+  // Function to handle Enter key press
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin(e);
+    }
+  };
+
   return (
     <form onSubmit={handleLogin}>
       {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -39,6 +46,7 @@ const Login = ({ onLoginSuccess, onLoading }) => {
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        onKeyPress={handleKeyPress} // Handle Enter key
         required
       />
       <input
@@ -46,6 +54,7 @@ const Login = ({ onLoginSuccess, onLoading }) => {
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        onKeyPress={handleKeyPress} // Handle Enter key
         required
       />
       <button type="submit" disabled={loading}>
