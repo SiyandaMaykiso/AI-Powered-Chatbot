@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const axios = require('axios');
+const path = require('path');  // Import path to serve static files
 const authMiddleware = require('./middlewares/authMiddleware');  // Import the authMiddleware
 const ChatLog = require('./models/ChatLog');  // Import the ChatLog model
 
@@ -27,9 +28,17 @@ const chatRoutes = require('./routes/chatRoutes');  // Import the chat routes
 app.use('/', authRoutes);  // This will handle /register and /login
 app.use('/', chatRoutes);  // This will handle /chat
 
+// Serve static files from the React app (client/build)
+app.use(express.static(path.join(__dirname, 'client/build')));
+
 // Root endpoint for testing the API
 app.get('/', (req, res) => {
     res.send('Welcome to the AI-Powered Chatbot API!');
+});
+
+// Serve React app for any unknown routes (i.e., React routing)
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 // Endpoint to handle user queries
