@@ -7,7 +7,7 @@ const axios = require('axios');
 const path = require('path');  // Import path to serve static files
 const authMiddleware = require('./middlewares/authMiddleware');  // Import the authMiddleware
 const ChatLog = require('./models/ChatLog');  // Import the ChatLog model
-const bcrypt = require('bcrypt');  // Add bcrypt for password hashing
+const bcrypt = require('bcryptjs');
 const User = require('./models/User');  // Assuming you have a User model for managing users
 
 // Load environment variables from .env file
