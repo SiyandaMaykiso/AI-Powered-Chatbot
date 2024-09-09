@@ -1,13 +1,19 @@
+// /client/src/components/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress from Material-UI
 
-const Login = ({ onLoginSuccess }) => {
+const Login = ({ onLoginSuccess, onLoading }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); // State to track loading
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true); // Show loading spinner
+    onLoading(true);  // Optionally call onLoading to handle globally
+    setError('');
     try {
       const response = await axios.post('http://localhost:3001/login', {
         username,
@@ -19,6 +25,9 @@ const Login = ({ onLoginSuccess }) => {
     } catch (err) {
       setError('Invalid username or password');
       console.error('Login error:', err);
+    } finally {
+      setLoading(false); // Hide loading spinner
+      onLoading(false);  // Optionally call onLoading to stop globally
     }
   };
 
@@ -30,14 +39,18 @@ const Login = ({ onLoginSuccess }) => {
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        required
       />
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        required
       />
-      <button type="submit">Login</button>
+      <button type="submit" disabled={loading}>
+        {loading ? <CircularProgress size={20} /> : 'Login'}
+      </button>
     </form>
   );
 };

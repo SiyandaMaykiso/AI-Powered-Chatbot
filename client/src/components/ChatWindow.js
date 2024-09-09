@@ -2,14 +2,17 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 const ChatWindow = () => {
   const [userQuery, setUserQuery] = useState('');
   const [chatLog, setChatLog] = useState([]);
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const sendMessage = async () => {
     if (userQuery.trim()) {
+      setLoading(true); // Set loading to true when sending the message
       try {
         const response = await axios.post('http://localhost:3001/chat', {
           message: userQuery,
@@ -23,6 +26,7 @@ const ChatWindow = () => {
       } catch (error) {
         console.error('Error sending message:', error);
       }
+      setLoading(false); // Set loading to false after the response
     }
   };
 
@@ -44,7 +48,9 @@ const ChatWindow = () => {
           placeholder="Ask the chatbot..."
           style={inputStyle}
         />
-        <button onClick={sendMessage} style={sendButtonStyle}>Send</button>
+        <button onClick={sendMessage} style={sendButtonStyle} disabled={loading}>
+          {loading ? <CircularProgress size={24} style={{ color: 'white' }} /> : 'Send'}
+        </button>
       </div>
       {/* Add a link to the Chat History page */}
       <div style={{ marginTop: '20px', textAlign: 'center' }}>
@@ -110,6 +116,9 @@ const sendButtonStyle = {
   borderRadius: '4px',
   cursor: 'pointer',
   border: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 };
 
 const historyButtonStyle = {

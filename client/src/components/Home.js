@@ -1,21 +1,27 @@
 // /client/src/components/Home.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
+import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress for loading indicator
 import './Home.css'; // Import the CSS file
 
 const Home = ({ onLoginSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [loading, setLoading] = useState(false); // Add loading state
+  const navigate = useNavigate();
 
   const handleLoginSuccess = () => {
-    onLoginSuccess();  // Call the parent function to mark user as logged in
-    navigate('/chat'); // Redirect to the chat page
+    onLoginSuccess();
+    navigate('/chat');
   };
 
   const handleRegisterSuccess = () => {
-    navigate('/chat'); // Navigate to chat after successful registration
+    navigate('/chat');
+  };
+
+  const handleLoading = (isLoading) => {
+    setLoading(isLoading); // Control the loading state
   };
 
   return (
@@ -39,10 +45,18 @@ const Home = ({ onLoginSuccess }) => {
 
       <div className="form-container">
         <h2>{isLogin ? 'Login' : 'Register'}</h2>
-        {isLogin ? (
-          <Login onLoginSuccess={handleLoginSuccess} />
+        
+        {/* Show loading spinner when either login or register is processing */}
+        {loading ? (
+          <div style={{ textAlign: 'center', marginTop: '20px' }}>
+            <CircularProgress />
+          </div>
         ) : (
-          <Register onRegisterSuccess={handleRegisterSuccess} /> 
+          isLogin ? (
+            <Login onLoginSuccess={handleLoginSuccess} onLoading={handleLoading} /> // Pass loading handler to Login
+          ) : (
+            <Register onRegisterSuccess={handleRegisterSuccess} onLoading={handleLoading} /> // Pass loading handler to Register
+          )
         )}
       </div>
     </div>
