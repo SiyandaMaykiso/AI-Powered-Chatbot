@@ -72,9 +72,9 @@ const ChatWindow = () => {
 
 // Styles for ChatWindow
 const chatContainerStyle = {
-  maxWidth: '600px',
+  maxWidth: '864px',  // Increased another 20%
   margin: '0 auto',
-  padding: '20px',
+  padding: '28px',  // Slightly increased padding
   backgroundColor: '#f8f9fa',
   borderRadius: '8px',
   boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
@@ -87,7 +87,7 @@ const headerStyle = {
 };
 
 const chatWindowStyle = {
-  height: '300px',
+  height: '432px',  // Increased another 20%
   overflowY: 'auto',
   backgroundColor: '#ffffff',
   borderRadius: '8px',
@@ -111,14 +111,14 @@ const inputContainerStyle = {
 };
 
 const inputStyle = {
-  width: '80%',
-  padding: '10px',
+  width: '84%',
+  padding: '11px',
   borderRadius: '4px',
   border: '1px solid #ccc',
 };
 
 const sendButtonStyle = {
-  padding: '10px 20px',
+  padding: '12px 24px',
   backgroundColor: '#007bff',
   color: 'white',
   borderRadius: '4px',
@@ -127,15 +127,17 @@ const sendButtonStyle = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  fontSize: '1.1rem',  // Slightly increase the font size
 };
 
 const historyButtonStyle = {
-  padding: '10px 20px',
+  padding: '12px 24px',  // Increased padding to match the ratio
   backgroundColor: '#28a745',
   color: 'white',
   borderRadius: '4px',
   cursor: 'pointer',
   border: 'none',
+  fontSize: '1.1rem',  // Slightly increase the font size
 };
 
 export default ChatWindow;
