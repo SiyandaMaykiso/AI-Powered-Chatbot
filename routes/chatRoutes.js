@@ -7,7 +7,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 const router = express.Router();
 
 // Existing routes
-router.post('/chat', authMiddleware, chatController.chat);
+router.post('/chat', authMiddleware, chatController.chat); 
 router.get('/chat-history', authMiddleware, chatController.getChatHistory);
 
 // New PATCH route for updating chat logs

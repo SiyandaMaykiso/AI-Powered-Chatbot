@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken'); // Import jsonwebtoken for JWT handling
 const authMiddleware = require('./middlewares/authMiddleware');
 const ChatLog = require('./models/ChatLog'); // Import the ChatLog model
 const User = require('./models/User'); // Assuming you have a User model for managing users
+const sequelize = require('./config/db'); // Import sequelize instance
 
 // Load environment variables from .env file
 dotenv.config();
@@ -137,8 +138,14 @@ app.get('/chat-history', authMiddleware, async (req, res) => {
     }
 });
 
-// Start the server
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// Sync Sequelize models and start the server
+sequelize.sync({ force: false }) // Set to true to force syncing (drops tables if necessary)
+    .then(() => {
+        const PORT = process.env.PORT || 3001;
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    })
+    .catch(err => {
+        console.error('Unable to sync database:', err.message);
+    });
