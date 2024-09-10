@@ -1,5 +1,5 @@
-// /client/src/components/Register.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress from Material-UI
 
@@ -8,6 +8,7 @@ const Register = ({ onLoginSuccess, onLoading }) => {  // Use onLoginSuccess to 
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false); // State to track loading
+  const navigate = useNavigate(); // Initialize useNavigate for programmatic navigation
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -25,7 +26,10 @@ const Register = ({ onLoginSuccess, onLoading }) => {  // Use onLoginSuccess to 
       localStorage.setItem('token', response.data.token);
 
       // Call onLoginSuccess to update the login state and redirect to /chat
-      onLoginSuccess(); 
+      onLoginSuccess();
+      
+      // Redirect to /chat after successful registration
+      navigate('/chat');
       
     } catch (err) {
       setError('User already registered');
