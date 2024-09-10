@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const axios = require('axios');
 const path = require('path');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken'); // Import jsonwebtoken for JWT handling
 const authMiddleware = require('./middlewares/authMiddleware');
 const ChatLog = require('./models/ChatLog'); // Import the ChatLog model
 const User = require('./models/User'); // Assuming you have a User model for managing users
@@ -52,8 +53,8 @@ app.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid username or password' });
         }
 
-        // Simulate JWT generation
-        const token = 'dummy-token'; // Replace this with actual JWT logic
+        // Generate JWT token for the logged-in user
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.json({ token });
     } catch (error) {
         console.error('Login error:', error);
@@ -75,8 +76,9 @@ app.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await User.create({ username, password: hashedPassword });
 
-        const token = 'dummy-token'; // Replace this with actual JWT generation logic
-        res.json({ token });
+        // Generate JWT token for the newly registered user
+        const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.status(201).json({ token });
     } catch (error) {
         console.error('Register error:', error);
         res.status(500).json({ error: 'Internal Server Error' });
