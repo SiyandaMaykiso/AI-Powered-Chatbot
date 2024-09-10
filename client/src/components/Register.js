@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate for redire
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress from Material-UI
 
-const Register = ({ onLoginSuccess, onLoading }) => {  // Use onLoginSuccess to maintain login state
+const Register = ({ onRegisterSuccess, onLoading }) => {  // Use onRegisterSuccess to maintain login state
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -25,8 +25,8 @@ const Register = ({ onLoginSuccess, onLoading }) => {  // Use onLoginSuccess to 
       // Save token in localStorage after successful registration
       localStorage.setItem('token', response.data.token);
 
-      // Call onLoginSuccess to update the login state and redirect to /chat
-      onLoginSuccess();
+      // Call onRegisterSuccess to update the login state and redirect to /chat
+      onRegisterSuccess();
       
       // Redirect to /chat after successful registration
       navigate('/chat');
