@@ -32,7 +32,7 @@ const Register = ({ onRegisterSuccess, onLoading }) => {  // Use onRegisterSucce
       navigate('/chat');
       
     } catch (err) {
-      setError('User already registered');
+      setError('Registration error');
       console.error('Registration error:', err);
     } finally {
       setLoading(false); // Hide loading spinner

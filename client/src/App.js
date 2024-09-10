@@ -22,7 +22,7 @@ const App = () => {
     setLoading(false); // Token check completed
   }, []);
 
-  // Function to handle successful login
+  // Function to handle successful login or registration
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
   };
@@ -39,14 +39,10 @@ const App = () => {
         {globalLoading && <div>Loading...</div>} {/* Global loading spinner */}
 
         <Routes>
-          {/* Pass onLoginSuccess and onLoading to Home component */}
+          {/* Pass onLoginSuccess and onLoading to Home, Login, and Register */}
           <Route path="/" element={<Home onLoginSuccess={handleLoginSuccess} onLoading={setGlobalLoading} />} />
-
-          {/* Public routes */}
           <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} onLoading={setGlobalLoading} />} />
-          
-          {/* Pass onLoginSuccess and onLoading to Register component */}
-          <Route path="/register" element={<Register onLoginSuccess={handleLoginSuccess} onLoading={setGlobalLoading} />} />
+          <Route path="/register" element={<Register onLoginSuccess={handleLoginSuccess} onLoading={setGlobalLoading} />} /> {/* Use onLoginSuccess for registration */}
 
           {/* Protected routes */}
           {isLoggedIn ? (
