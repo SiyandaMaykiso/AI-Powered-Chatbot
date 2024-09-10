@@ -12,6 +12,7 @@ import Header from './components/Header';
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true); // To prevent routing before token check is done
+  const [globalLoading, setGlobalLoading] = useState(false); // Global loading state for login and register
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -34,16 +35,18 @@ const App = () => {
     <Router>
       <div className="App">
         <Header />
+        
+        {globalLoading && <div>Loading...</div>} {/* Global loading spinner */}
 
         <Routes>
-          {/* Pass onLoginSuccess to Home component */}
-          <Route path="/" element={<Home onLoginSuccess={handleLoginSuccess} />} />
+          {/* Pass onLoginSuccess and onLoading to Home component */}
+          <Route path="/" element={<Home onLoginSuccess={handleLoginSuccess} onLoading={setGlobalLoading} />} />
 
           {/* Public routes */}
-          <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+          <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} onLoading={setGlobalLoading} />} />
           
-          {/* Pass onLoginSuccess to Register component */}
-          <Route path="/register" element={<Register onLoginSuccess={handleLoginSuccess} />} />
+          {/* Pass onLoginSuccess and onLoading to Register component */}
+          <Route path="/register" element={<Register onLoginSuccess={handleLoginSuccess} onLoading={setGlobalLoading} />} />
 
           {/* Protected routes */}
           {isLoggedIn ? (
