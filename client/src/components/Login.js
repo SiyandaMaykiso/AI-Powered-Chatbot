@@ -1,6 +1,7 @@
 // /client/src/components/Login.js
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress from Material-UI
 
@@ -9,6 +10,7 @@ const Login = ({ onLoginSuccess, onLoading }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false); // State to track loading
+  const navigate = useNavigate(); // Initialize useNavigate for redirection
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,6 +25,7 @@ const Login = ({ onLoginSuccess, onLoading }) => {
       const { token } = response.data;
       localStorage.setItem('token', token);
       onLoginSuccess(); // Call onLoginSuccess after successfully saving the token
+      navigate('/chat'); // Redirect to /chat after successful login
     } catch (err) {
       setError('Invalid username or password');
       console.error('Login error:', err);
