@@ -55,7 +55,7 @@ app.post('/login', async (req, res) => {
         }
 
         // Generate JWT token for the logged-in user
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
         res.json({ token });
     } catch (error) {
         console.error('Login error:', error);
@@ -78,7 +78,7 @@ app.post('/register', async (req, res) => {
         const newUser = await User.create({ username, password: hashedPassword });
 
         // Generate JWT token for the newly registered user
-        const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
         res.status(201).json({ token });
     } catch (error) {
         console.error('Register error:', error);
