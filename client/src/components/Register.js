@@ -1,3 +1,5 @@
+// /client/src/components/Register.js
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import axios from 'axios';
@@ -68,6 +70,7 @@ const Register = ({ onLoginSuccess, onLoading }) => {  // Use onLoginSuccess to 
         onChange={(e) => setPassword(e.target.value)}
         onKeyPress={handleKeyPress} // Handle Enter key
         required
+        autocomplete="new-password"  // Add this attribute
       />
       <button type="submit" disabled={loading}>
         {loading ? <CircularProgress size={20} /> : 'Register'}
