@@ -80,7 +80,7 @@ const Home = ({ onLoginSuccess }) => {
             {isLogin ? (
               <Login onLoginSuccess={handleLoginSuccess} onLoading={handleLoading} /> 
             ) : (
-              <Register onRegisterSuccess={handleRegisterSuccess} onLoading={handleLoading} />
+              <Register onLoginSuccess={handleRegisterSuccess} onLoading={handleLoading} />
             )}
           </>
         )}
