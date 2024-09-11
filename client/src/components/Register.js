@@ -22,8 +22,11 @@ const Register = ({ onLoginSuccess, onLoading }) => {  // Use onLoginSuccess to 
         password,
       });
 
+      // Destructure the token from response data
+      const { token } = response.data;
+
       // Save token in localStorage after successful registration
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', token);
 
       // Call onLoginSuccess to update the login state and redirect to /chat
       onLoginSuccess();  // Use onLoginSuccess for both registration and login
