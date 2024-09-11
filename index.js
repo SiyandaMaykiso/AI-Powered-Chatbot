@@ -101,7 +101,7 @@ app.post('/chat', authMiddleware, async (req, res) => {
             {
                 model: 'gpt-3.5-turbo',
                 messages: [{ role: 'user', content: userQuery }],
-                max_tokens: 185,
+                max_tokens: 190,
                 temperature: 0.7,
             },
             {
