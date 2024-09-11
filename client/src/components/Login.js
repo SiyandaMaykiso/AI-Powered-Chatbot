@@ -52,6 +52,7 @@ const Login = ({ onLoginSuccess, onLoading }) => {
         onChange={(e) => setUsername(e.target.value)}
         onKeyPress={handleKeyPress} // Handle Enter key
         required
+        autocomplete="username"  // Add autocomplete for username
       />
       <input
         type="password"
@@ -60,7 +61,7 @@ const Login = ({ onLoginSuccess, onLoading }) => {
         onChange={(e) => setPassword(e.target.value)}
         onKeyPress={handleKeyPress} // Handle Enter key
         required
-        autocomplete="current-password"  // Add this attribute
+        autocomplete="current-password"  // Add autocomplete for password
       />
       <button type="submit" disabled={loading}>
         {loading ? <CircularProgress size={20} /> : 'Login'}
