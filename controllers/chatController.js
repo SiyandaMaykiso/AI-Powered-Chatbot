@@ -1,6 +1,36 @@
 const axios = require('axios');
 const ChatLog = require('../models/ChatLog');
 
+// Conversation state to track topics and subtopics
+let conversationState = {
+    currentTopic: null,
+    subTopics: [],
+};
+
+// Detect the topic or user intent based on the message
+const detectTopic = (message) => {
+    // Split the message into words and filter out short/common words
+    const commonWords = ['the', 'is', 'of', 'a', 'in', 'to', 'and', 'about', 'for'];
+    const words = message
+        .toLowerCase()
+        .split(' ')
+        .filter(word => word.length > 2 && !commonWords.includes(word));
+
+    if (words.length > 0) {
+        // Assume the main topic is the most significant word in the user's message
+        conversationState.currentTopic = words[0]; // The first significant word could be the topic
+    }
+
+    // If the message contains words indicating subtopics (e.g., "detail", "expand"), track those
+    if (message.toLowerCase().includes('detail') || message.toLowerCase().includes('expand')) {
+        conversationState.subTopics.push('detail');
+    } else if (message.toLowerCase().includes('more')) {
+        conversationState.subTopics.push('more');
+    }
+
+    // Add further subtopic detection as needed
+};
+
 // Method to handle user chat requests
 exports.chat = async (req, res) => {
     const { message, previousMessageId } = req.body;
@@ -11,13 +41,16 @@ exports.chat = async (req, res) => {
             return res.status(400).json({ error: 'Message is required' });
         }
 
+        // Detect the topic or user intent based on the current message
+        detectTopic(message);
+
         // Fetch the previous message context if previousMessageId is provided
         let previousMessages = [];
         if (previousMessageId) {
             const previousMessagesData = await ChatLog.findAll({
                 where: { userId: req.user.id },
                 order: [['createdAt', 'ASC']],
-                limit: 5 // Fetch the last 5 messages for context
+                limit: 10 // Fetch more messages for deeper context
             });
             
             previousMessagesData.forEach(log => {
@@ -29,10 +62,10 @@ exports.chat = async (req, res) => {
         // Include the new message in the conversation
         previousMessages.push({ role: 'user', content: message });
 
-        // Add system instruction to focus on concise and complete responses
+        // Add system instruction to focus on context, resolving references, and complete responses
         previousMessages.push({
             role: 'system',
-            content: 'Provide a response that fits within 150 tokens and ends with a complete thought.'
+            content: `Provide a response related to the topic: "${conversationState.currentTopic}" that fits within 150 tokens, resolves pronouns or references like "it" or "this" to the prior conversation, and ends with a complete thought.`
         });
 
         // Make a direct API call to OpenAI using Axios with the conversation history
@@ -41,8 +74,8 @@ exports.chat = async (req, res) => {
             {
                 model: 'gpt-3.5-turbo',
                 messages: previousMessages,
-                max_tokens: 172,
-                temperature: 0.8,
+                max_tokens: 175,
+                temperature: 0.7,
             },
             {
                 headers: {
