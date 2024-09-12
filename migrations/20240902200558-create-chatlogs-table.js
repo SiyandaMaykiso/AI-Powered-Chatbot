@@ -1,4 +1,4 @@
-// migrations/YYYYMMDDHHMMSS-create-chatlogs-table.js
+
 'use strict';
 
 module.exports = {

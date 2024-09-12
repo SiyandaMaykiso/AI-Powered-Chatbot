@@ -1,24 +1,24 @@
-// /client/src/components/ChatWindow.js
+
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import CircularProgress from '@mui/material/CircularProgress'; 
+import { Link } from 'react-router-dom'; 
 
 const ChatWindow = () => {
   const [userQuery, setUserQuery] = useState('');
   const [chatLog, setChatLog] = useState([]);
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false); 
 
   const sendMessage = async () => {
     if (userQuery.trim()) {
-      setLoading(true); // Set loading to true when sending the message
+      setLoading(true); 
       try {
-        const response = await axios.post('/chat', {  // Use relative URL
+        const response = await axios.post('/chat', {  
           message: userQuery,
         }, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}` // Assuming you store your JWT token here
+            Authorization: `Bearer ${localStorage.getItem('token')}` 
           }
         });
         setChatLog([...chatLog, { user: 'You', message: userQuery }, { user: 'Bot', message: response.data.response }]);
@@ -26,11 +26,11 @@ const ChatWindow = () => {
       } catch (error) {
         console.error('Error sending message:', error);
       }
-      setLoading(false); // Set loading to false after the response
+      setLoading(false); 
     }
   };
 
-  // Function to handle Enter key press
+  
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       sendMessage();
@@ -53,14 +53,14 @@ const ChatWindow = () => {
           value={userQuery}
           onChange={(e) => setUserQuery(e.target.value)}
           placeholder="Ask the chatbot..."
-          onKeyPress={handleKeyPress} // Add keypress handler for Enter key
+          onKeyPress={handleKeyPress} 
           style={inputStyle}
         />
         <button onClick={sendMessage} style={sendButtonStyle} disabled={loading}>
           {loading ? <CircularProgress size={24} style={{ color: 'white' }} /> : 'Send'}
         </button>
       </div>
-      {/* Add a link to the Chat History page */}
+      {}
       <div style={{ marginTop: '20px', textAlign: 'center' }}>
         <Link to="/chathistory">
           <button style={historyButtonStyle}>View Chat History</button>
@@ -70,11 +70,11 @@ const ChatWindow = () => {
   );
 };
 
-// Styles for ChatWindow
+
 const chatContainerStyle = {
-  maxWidth: '864px',  // Increased another 20%
+  maxWidth: '864px',  
   margin: '0 auto',
-  padding: '28px',  // Slightly increased padding
+  padding: '28px',  
   backgroundColor: '#f8f9fa',
   borderRadius: '8px',
   boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
@@ -87,7 +87,7 @@ const headerStyle = {
 };
 
 const chatWindowStyle = {
-  height: '432px',  // Increased another 20%
+  height: '432px',  
   overflowY: 'auto',
   backgroundColor: '#ffffff',
   borderRadius: '8px',
@@ -127,17 +127,17 @@ const sendButtonStyle = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: '1.1rem',  // Slightly increase the font size
+  fontSize: '1.1rem',  
 };
 
 const historyButtonStyle = {
-  padding: '12px 24px',  // Increased padding to match the ratio
+  padding: '12px 24px',  
   backgroundColor: '#28a745',
   color: 'white',
   borderRadius: '4px',
   cursor: 'pointer',
   border: 'none',
-  fontSize: '1.1rem',  // Slightly increase the font size
+  fontSize: '1.1rem',  
 };
 
 export default ChatWindow;

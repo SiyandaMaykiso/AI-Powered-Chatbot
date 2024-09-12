@@ -1,43 +1,43 @@
-// /client/src/components/Home.js
+
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
-import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress for loading indicator
-import './Home.css'; // Import the CSS file
+import CircularProgress from '@mui/material/CircularProgress'; 
+import './Home.css'; 
 
 const Home = ({ onLoginSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
-  const [loading, setLoading] = useState(false); // Add loading state
-  const [isLoggedOut, setIsLoggedOut] = useState(false); // Track if user is logged out
+  const [loading, setLoading] = useState(false); 
+  const [isLoggedOut, setIsLoggedOut] = useState(false); 
   const navigate = useNavigate();
 
-  // Handle login success, navigate to /chat
+  
   const handleLoginSuccess = () => {
-    onLoginSuccess(); // Trigger the login success callback from App.js
-    navigate('/chat'); // Navigate to the chat window
+    onLoginSuccess(); 
+    navigate('/chat'); 
   };
 
-  // Handle registration success, navigate to /chat
+  
   const handleRegisterSuccess = () => {
-    onLoginSuccess(); // This can be used to automatically log in after registration
-    navigate('/chat'); // Navigate to the chat window
+    onLoginSuccess(); 
+    navigate('/chat'); 
   };
 
-  // Control the loading state for login/register actions
+  
   const handleLoading = (isLoading) => {
-    setLoading(isLoading); // Show or hide loading spinner
+    setLoading(isLoading); 
   };
 
-  // Handle user logout
+  
   const handleLogout = () => {
-    setLoading(true); // Show loading spinner
+    setLoading(true); 
     setTimeout(() => {
-      localStorage.removeItem('token'); // Remove token to log out
-      setIsLoggedOut(true); // Set logged out state
-      setLoading(false); // Hide spinner
-    }, 2000); // Simulate a 2-second delay for the logout process
+      localStorage.removeItem('token'); 
+      setIsLoggedOut(true); 
+      setLoading(false); 
+    }, 2000); 
   };
 
   return (

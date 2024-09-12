@@ -1,41 +1,41 @@
-// /client/src/components/Login.js
+
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
-import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress from Material-UI
+import CircularProgress from '@mui/material/CircularProgress'; 
 
 const Login = ({ onLoginSuccess, onLoading }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // State to track loading
-  const navigate = useNavigate(); // Initialize useNavigate for redirection
+  const [loading, setLoading] = useState(false); 
+  const navigate = useNavigate(); 
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true); // Show loading spinner
-    onLoading(true);  // Optionally call onLoading to handle globally
+    setLoading(true); 
+    onLoading(true); 
     setError('');
     try {
-      const response = await axios.post('/login', {  // Use relative URL
+      const response = await axios.post('/login', {  
         username,
         password,
       });
       const { token } = response.data;
       localStorage.setItem('token', token);
-      onLoginSuccess(); // Call onLoginSuccess after successfully saving the token
-      navigate('/chat'); // Redirect to /chat after successful login
+      onLoginSuccess(); 
+      navigate('/chat'); 
     } catch (err) {
       setError('Invalid username or password');
       console.error('Login error:', err);
     } finally {
-      setLoading(false); // Hide loading spinner
-      onLoading(false);  // Optionally call onLoading to stop globally
+      setLoading(false); 
+      onLoading(false);  
     }
   };
 
-  // Function to handle Enter key press
+  
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleLogin(e);
@@ -50,18 +50,18 @@ const Login = ({ onLoginSuccess, onLoading }) => {
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        onKeyPress={handleKeyPress} // Handle Enter key
+        onKeyPress={handleKeyPress} 
         required
-        autocomplete="username"  // Add autocomplete for username
+        autocomplete="username"  
       />
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        onKeyPress={handleKeyPress} // Handle Enter key
+        onKeyPress={handleKeyPress} 
         required
-        autocomplete="current-password"  // Add autocomplete for password
+        autocomplete="current-password"  
       />
       <button type="submit" disabled={loading}>
         {loading ? <CircularProgress size={20} /> : 'Login'}

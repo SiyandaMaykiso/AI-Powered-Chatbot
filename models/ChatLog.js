@@ -1,4 +1,4 @@
-// models/ChatLog.js
+
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
@@ -7,7 +7,7 @@ const ChatLog = sequelize.define('ChatLog', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true, // Automatically generate unique IDs
+    autoIncrement: true, 
   },
   userId: {
     type: DataTypes.INTEGER,
@@ -23,10 +23,10 @@ const ChatLog = sequelize.define('ChatLog', {
   },
   previousMessageId: {
     type: DataTypes.INTEGER,
-    allowNull: true,  // This will store the ID of the previous message (for conversation context)
+    allowNull: true,  
   }
 }, {
-  timestamps: true, // Ensure createdAt and updatedAt fields are added
+  timestamps: true, 
 });
 
 module.exports = ChatLog;

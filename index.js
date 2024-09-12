@@ -1,4 +1,4 @@
-// Import required modules
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -6,44 +6,44 @@ const dotenv = require('dotenv');
 const axios = require('axios');
 const path = require('path');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken'); // Import jsonwebtoken for JWT handling
+const jwt = require('jsonwebtoken'); 
 const authMiddleware = require('./middlewares/authMiddleware');
-const ChatLog = require('./models/ChatLog'); // Import the ChatLog model
-const User = require('./models/User'); // Assuming you have a User model for managing users
-const sequelize = require('./config/db'); // Import sequelize instance
+const ChatLog = require('./models/ChatLog'); 
+const User = require('./models/User'); 
+const sequelize = require('./config/db'); 
 
-// Load environment variables from .env file
+
 dotenv.config();
 
-// Initialize Express app
+
 const app = express();
 
-// Middleware
-app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:3000' }));
-app.use(bodyParser.json()); // Parse incoming JSON requests
 
-// Import routes
+app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:3000' }));
+app.use(bodyParser.json()); 
+
+
 const authRoutes = require('./routes/authRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 
-// Use routes
-app.use('/', authRoutes);  // This will handle /register and /login
-app.use('/', chatRoutes);  // This will handle /chat
 
-// Serve static files from the React app (client/build)
+app.use('/', authRoutes);  
+app.use('/', chatRoutes);  
+
+
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-// Root endpoint for testing the API
+
 app.get('/', (req, res) => {
     res.send('Welcome to the AI-Powered Chatbot API!');
 });
 
-// Serve React app for any unknown routes (i.e., React routing)
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
-// Add logging to the /login route for troubleshooting
+
 app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -54,7 +54,7 @@ app.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid username or password' });
         }
 
-        // Generate JWT token for the logged-in user
+        
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
         res.json({ token });
     } catch (error) {
@@ -63,7 +63,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Add a register route
+
 app.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -77,7 +77,7 @@ app.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await User.create({ username, password: hashedPassword });
 
-        // Generate JWT token for the newly registered user
+        
         const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
         res.status(201).json({ token });
     } catch (error) {
@@ -86,7 +86,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// Endpoint to handle user queries
+
 app.post('/chat', authMiddleware, async (req, res) => {
     try {
         console.log("req.user in /chat:", req.user);
@@ -127,7 +127,7 @@ app.post('/chat', authMiddleware, async (req, res) => {
     }
 });
 
-// Endpoint to retrieve chat history
+
 app.get('/chathistory', authMiddleware, async (req, res) => {
     try {
         const chatLogs = await ChatLog.findAll({ where: { userId: req.user.id } });
@@ -138,8 +138,8 @@ app.get('/chathistory', authMiddleware, async (req, res) => {
     }
 });
 
-// Sync Sequelize models and start the server
-sequelize.sync({ force: false }) // Set to true to force syncing (drops tables if necessary)
+
+sequelize.sync({ force: false }) 
     .then(() => {
         const PORT = process.env.PORT || 3001;
         app.listen(PORT, () => {

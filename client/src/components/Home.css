@@ -1,4 +1,4 @@
-/* /client/src/components/Home.css */
+
 
 .home-container {
   display: flex;
@@ -32,20 +32,20 @@
 }
 
 .toggle-button.active {
-  background-color: #28a745; /* Green for active button */
+  background-color: #28a745; 
 }
 
 .toggle-button:not(.active) {
-  background-color: #007bff; /* Blue for inactive button */
+  background-color: #007bff; 
 }
 
 .toggle-button:hover {
-  background-color: #0056b3; /* Hover effect */
+  background-color: #0056b3; 
 }
 
-/* Logout button styling */
+
 .logout-button {
-  background-color: #dc3545; /* Red for logout */
+  background-color: #dc3545; 
   color: white;
   padding: 10px 20px;
   margin-top: 20px;
@@ -57,10 +57,10 @@
 }
 
 .logout-button:hover {
-  background-color: #c82333; /* Darker red on hover */
+  background-color: #c82333; 
 }
 
-/* Form styling */
+
 .form-container {
   width: 100%;
   max-width: 500px;
@@ -91,7 +91,7 @@ button[type="submit"]:hover {
   background-color: #28a745;
 }
 
-/* Success message styling */
+
 .success-message {
   color: #28a745;
   font-size: 1.2rem;

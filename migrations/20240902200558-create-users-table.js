@@ -1,4 +1,4 @@
-// migrations/YYYYMMDDHHMMSS-create-users-table.js
+
 'use strict';
 
 module.exports = {
