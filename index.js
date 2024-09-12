@@ -128,7 +128,7 @@ app.post('/chat', authMiddleware, async (req, res) => {
 });
 
 // Endpoint to retrieve chat history
-app.get('/chat-history', authMiddleware, async (req, res) => {
+app.get('/chathistory', authMiddleware, async (req, res) => {
     try {
         const chatLogs = await ChatLog.findAll({ where: { userId: req.user.id } });
         res.json({ chatHistory: chatLogs });

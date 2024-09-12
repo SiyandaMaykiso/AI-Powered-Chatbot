@@ -8,7 +8,7 @@ const router = express.Router();
 
 // Existing routes
 router.post('/chat', authMiddleware, chatController.chat); 
-router.get('/chat-history', authMiddleware, chatController.getChatHistory);
+router.get('/chathistory', authMiddleware, chatController.getChatHistory);
 
 // New PATCH route for updating chat logs
 router.patch('/chat/:id', authMiddleware, chatController.updateChatLog);
