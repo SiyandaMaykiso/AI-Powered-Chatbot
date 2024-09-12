@@ -6,6 +6,8 @@ I developed the AI-Powered Chatbot as a web application to simulate human-like c
 
 This chatbot can be used in various scenarios, such as customer service, virtual assistants, or educational tools, highlighting the effectiveness of AI in handling real-time user interactions.
 
+[AI-Powered Chatbot](https://ai-powered-chatbot-c163b8863896.herokuapp.com/).
+
 ## Features
 
 ### Natural Language Processing (NLP)
