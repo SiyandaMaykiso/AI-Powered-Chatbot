@@ -74,7 +74,7 @@ exports.chat = async (req, res) => {
             {
                 model: 'gpt-3.5-turbo',
                 messages: previousMessages,
-                max_tokens: 190,
+                max_tokens: 195,
                 temperature: 0.7,
             },
             {
