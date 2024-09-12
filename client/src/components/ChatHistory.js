@@ -16,21 +16,30 @@ const ChatHistory = () => {
       const token = localStorage.getItem('token'); // Retrieve token from local storage
 
       if (!token) {
-        setError('No token found. Please log in.');
-        setLoading(false); // Stop loading if no token
+        setError('No token found. Redirecting to login...');
+        setLoading(false);
+        // Redirect to login if no token
+        window.location.href = '/login'; 
         return;
       }
 
       try {
-        const response = await axios.get('/chathistory', {  // Use relative URL
+        const response = await axios.get('https://ai-powered-chatbot-c163b8863896.herokuapp.com/chathistory', {  
           headers: {
             Authorization: `Bearer ${token}`, // Pass the JWT token for authentication
           },
         });
         setChatHistory(response.data.chatHistory);
       } catch (error) {
-        console.error('Error fetching chat history:', error);
-        setError('Error fetching chat history. Please try again.');
+        if (error.response && error.response.status === 401) {
+          // Handle the case when token is expired or invalid
+          setError('Unauthorized. Please log in again.');
+          localStorage.removeItem('token'); // Clear token
+          window.location.href = '/login';  // Redirect to login page
+        } else {
+          console.error('Error fetching chat history:', error);
+          setError('Error fetching chat history. Please try again.');
+        }
       } finally {
         setLoading(false); // Set loading to false after data is fetched or error occurs
       }
