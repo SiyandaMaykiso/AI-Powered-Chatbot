@@ -8,6 +8,18 @@ This chatbot can be used in various scenarios, such as customer service, virtual
 
 [AI-Powered Chatbot](https://ai-powered-chatbot-c163b8863896.herokuapp.com/).
 
+## Screenshots
+
+### Home Page
+![Home Page](https://github.com/SiyandaMaykiso/AI-Powered-Chatbot/blob/main/screenshots/Home_Page_Screenshot.png)
+
+### Chat Window
+![Chat Window](https://github.com/SiyandaMaykiso/AI-Powered-Chatbot/blob/main/screenshots/Chat_Window_Screenshot.png)
+
+### Chat History
+![Chat History](https://github.com/SiyandaMaykiso/AI-Powered-Chatbot/blob/main/screenshots/Chat_History_Screenshot.png)
+
+
 ## Features
 
 ### Natural Language Processing (NLP)
