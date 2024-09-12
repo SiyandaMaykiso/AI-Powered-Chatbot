@@ -8,21 +8,31 @@ import './ChatHistory.css'; // Import the CSS file
 const ChatHistory = () => {
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
+  const [error, setError] = useState(''); // Add error state
 
   useEffect(() => {
     // Fetch chat history when the component mounts
     const fetchChatHistory = async () => {
+      const token = localStorage.getItem('token'); // Retrieve token from local storage
+
+      if (!token) {
+        setError('No token found. Please log in.');
+        setLoading(false); // Stop loading if no token
+        return;
+      }
+
       try {
         const response = await axios.get('/chathistory', {  // Use relative URL
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`, // Pass the JWT token for authentication
+            Authorization: `Bearer ${token}`, // Pass the JWT token for authentication
           },
         });
         setChatHistory(response.data.chatHistory);
-        setLoading(false); // Set loading to false after data is fetched
       } catch (error) {
         console.error('Error fetching chat history:', error);
-        setLoading(false); // Set loading to false in case of error
+        setError('Error fetching chat history. Please try again.');
+      } finally {
+        setLoading(false); // Set loading to false after data is fetched or error occurs
       }
     };
 
@@ -38,6 +48,8 @@ const ChatHistory = () => {
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
           <CircularProgress />
         </div>
+      ) : error ? (
+        <p>{error}</p>
       ) : (
         <ul>
           {chatHistory.map((log, index) => (
