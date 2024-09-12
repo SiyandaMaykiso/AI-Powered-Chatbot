@@ -48,7 +48,7 @@ const App = () => {
           {isLoggedIn ? (
             <>
               <Route path="/chat" element={<ChatWindow />} />
-              <Route path="/chat-history" element={<ChatHistory />} />
+              <Route path="/chathistory" element={<ChatHistory />} />
             </>
           ) : (
             // Redirect to login if user is not authenticated

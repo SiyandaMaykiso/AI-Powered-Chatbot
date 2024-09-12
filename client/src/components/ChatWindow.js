@@ -62,7 +62,7 @@ const ChatWindow = () => {
       </div>
       {/* Add a link to the Chat History page */}
       <div style={{ marginTop: '20px', textAlign: 'center' }}>
-        <Link to="/chat-history">
+        <Link to="/chathistory">
           <button style={historyButtonStyle}>View Chat History</button>
         </Link>
       </div>
